@@ -56,18 +56,24 @@ namespace ENAC_IT_BUDGET.Controllers
             var unitName = (dbENACITBudget.tb_unit.FirstOrDefault(x => x.NoUnit == unit)).NomUnit;
 
             // budget de l'unité
-            var budget = dbENACITBudget.tb_octroisunit.FirstOrDefault(x => x.NoUnit == unit && x.OctroisYear == date).OctroisCorrige;
+            var octroisCorrige = dbENACITBudget.tb_octroisunit.FirstOrDefault(x => x.NoUnit == unit && x.OctroisYear == date).OctroisCorrige;
 
-            // Numéro de commande de l'unité d'une certaine année
-            var NoCommande = dbENACITBudget.tb_commande.Where(x => x.NoUnit == unit && x.CommandeYear == date).ToList();
+            // Commandes de l'unité d'une certaine année 
+            var commandes = dbENACITBudget.tb_commande.Where(x => x.NoUnit == unit && x.CommandeYear == date && x.tb_commandStatus.isValid == 1).ToList();
 
-            // Commandes valides de l'unité d'après NoCommande
-            var commandeValide = dbENACITBudget.tb_commandStatus.Where(x => x.NoCommande == NoCommande && x.isValid == 1).ToList();
-            //var transfert = dbENACITBudget.tb_commandepaiement.Where(x => x.NoCommande == commandeValide).ToList();
-            //decimal totalTransfert = transfert.Sum(x => Convert.ToDecimal(x));
+            // Somme des parts payées par transfert
+            var sumTransferts = commandes.Sum(x => x.tb_commandepaiement.PaiementParTransfert);
 
-            viewModelBudget.Budget = budget;
-            ViewBag.budget = budget;
+            // Somme des montants des commandes valides (Engagé)
+            var sumCommandes = commandes.Sum(x => x.Montant);
+
+            // Solde budget (budget + transfert - engagé)
+            var sumBudget = octroisCorrige + sumTransferts - sumCommandes;
+
+            ViewBag.octroisCorrige = octroisCorrige;
+            ViewBag.sumTransferts = sumTransferts;
+            ViewBag.sumCommandes = sumCommandes;
+            ViewBag.sumBudget = sumBudget;
             //ViewBag.transfert = totalTransfert;
             //var units = dbENACITBudget.tb_unit.Select()
             ViewBag.Message = "Budget IT " + date + " - "  + unitName;
