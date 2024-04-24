@@ -1,0 +1,1102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="tb_commande">
+          <Key>
+            <PropertyRef Name="NoCommande" />
+          </Key>
+          <Property Name="NoCommande" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="NoUnit" Type="smallint" Nullable="false" />
+          <Property Name="DateCommande" Type="date" Nullable="false" />
+          <Property Name="PersonneCommande" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="NoFournisseur" Type="smallint" Nullable="false" />
+          <Property Name="DescriptionObjet" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="Montant" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="ToInventorier" Type="smallint" Nullable="false" />
+          <Property Name="Remarques" Type="nvarchar" MaxLength="256" />
+          <Property Name="CommandeYear" Type="smallint" Nullable="false" />
+          <Property Name="CommandeRef" Type="nvarchar" MaxLength="50" />
+          <Property Name="CouleurRemarques" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="tb_commandeinventaire">
+          <Key>
+            <PropertyRef Name="NoCommande" />
+            <PropertyRef Name="NoInventaire" />
+          </Key>
+          <Property Name="NoCommande" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="NoInventaire" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="DateInventaire" Type="date" Nullable="false" />
+          <Property Name="Remarques" Type="nvarchar" MaxLength="256" />
+        </EntityType>
+        <EntityType Name="tb_commandepaiement">
+          <Key>
+            <PropertyRef Name="NoCommande" />
+          </Key>
+          <Property Name="NoCommande" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PersonnePaiement" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="DatePaiement" Type="date" Nullable="false" />
+          <Property Name="PaimentParFond" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="PaiementParTransfert" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Remarques" Type="nvarchar" MaxLength="256" />
+          <Property Name="CouleurRemarques" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="tb_commandreception">
+          <Key>
+            <PropertyRef Name="NoCommande" />
+          </Key>
+          <Property Name="NoCommande" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="DateReception" Type="date" Nullable="false" />
+          <Property Name="Remarques" Type="nvarchar" MaxLength="256" />
+        </EntityType>
+        <EntityType Name="tb_commandStatus">
+          <Key>
+            <PropertyRef Name="NoCommande" />
+          </Key>
+          <Property Name="NoCommande" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="isValid" Type="smallint" Nullable="false" />
+          <Property Name="isIndexed" Type="smallint" Nullable="false" />
+          <Property Name="isPaid" Type="smallint" Nullable="false" />
+          <Property Name="isReceived" Type="smallint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tb_contact_role">
+          <Key>
+            <PropertyRef Name="roleID" />
+          </Key>
+          <Property Name="roleID" Type="smallint" Nullable="false" />
+          <Property Name="RoleName" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tb_espace">
+          <Key>
+            <PropertyRef Name="NoEspace" />
+          </Key>
+          <Property Name="NoEspace" Type="smallint" Nullable="false" />
+          <Property Name="NomEspace" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Responsable" Type="nvarchar" MaxLength="50" />
+          <Property Name="Remarques" Type="nvarchar" MaxLength="256" />
+        </EntityType>
+        <EntityType Name="tb_fonctionunit">
+          <Key>
+            <PropertyRef Name="NoFonction" />
+          </Key>
+          <Property Name="NoFonction" Type="smallint" Nullable="false" />
+          <Property Name="NomFonction" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="GroupName" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="tb_fournisseur">
+          <Key>
+            <PropertyRef Name="NoFournisseur" />
+          </Key>
+          <Property Name="NoFournisseur" Type="smallint" Nullable="false" />
+          <Property Name="NomFournisseur" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Remarques" Type="nvarchar" MaxLength="256" />
+          <Property Name="IsValid" Type="smallint" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'enacit-budget-dev.dbo.tb_octroisunit' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="tb_octroisunit">
+          <Key>
+            <PropertyRef Name="OctroisYear" />
+            <PropertyRef Name="NoUnit" />
+            <PropertyRef Name="OctroisBase" />
+            <PropertyRef Name="OctroisCorrige" />
+            <PropertyRef Name="isClosed" />
+          </Key>
+          <Property Name="OctroisYear" Type="smallint" Nullable="false" />
+          <Property Name="NoUnit" Type="smallint" Nullable="false" />
+          <Property Name="OctroisBase" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="OctroisCorrige" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Remarques" Type="nvarchar" MaxLength="256" />
+          <Property Name="isClosed" Type="smallint" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'enacit-budget-dev.dbo.tb_send_message' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="tb_send_message">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="NoUnit" />
+            <PropertyRef Name="EmailAdresse" />
+            <PropertyRef Name="EmailType" />
+            <PropertyRef Name="SendTime" />
+            <PropertyRef Name="SendStatus" />
+          </Key>
+          <Property Name="ID" Type="bigint" Nullable="false" />
+          <Property Name="NoUnit" Type="smallint" Nullable="false" />
+          <Property Name="EmailAdresse" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="EmailType" Type="smallint" Nullable="false" />
+          <Property Name="SendTime" Type="datetime" Nullable="false" />
+          <Property Name="SendStatus" Type="smallint" Nullable="false" />
+          <Property Name="MessageObjet" Type="nvarchar" MaxLength="256" />
+          <Property Name="MessageBody" Type="text" />
+          <Property Name="ErrorMessage" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="tb_unit">
+          <Key>
+            <PropertyRef Name="NoUnit" />
+          </Key>
+          <Property Name="NoUnit" Type="smallint" Nullable="false" />
+          <Property Name="NomUnit" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="NoEspace" Type="smallint" Nullable="false" />
+          <Property Name="Remarques" Type="nvarchar" MaxLength="256" />
+          <Property Name="IsClosed" Type="smallint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tb_unit_contact">
+          <Key>
+            <PropertyRef Name="ContactID" />
+          </Key>
+          <Property Name="NoUnit" Type="smallint" Nullable="false" />
+          <Property Name="RolePerson" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PersonLastName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PersonFirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="AdresseEmail" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="ContactID" Type="smallint" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'enacit-budget-dev.dbo.tb_unit_user' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="tb_unit_user">
+          <Key>
+            <PropertyRef Name="NomInitial" />
+            <PropertyRef Name="NoUnit" />
+          </Key>
+          <Property Name="NomInitial" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="NoUnit" Type="smallint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tb_user">
+          <Key>
+            <PropertyRef Name="NomInitial" />
+          </Key>
+          <Property Name="NomInitial" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="NomComplet" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Passwords" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Remarques" Type="nvarchar" MaxLength="256" />
+          <Property Name="AdresseMail" Type="nvarchar" MaxLength="100" />
+          <Property Name="isValid" Type="smallint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tb_userfonction">
+          <Key>
+            <PropertyRef Name="NomInitial" />
+          </Key>
+          <Property Name="NomInitial" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="NoFonction" Type="smallint" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_tb_commande_tb_fournisseur">
+          <End Role="tb_fournisseur" Type="Self.tb_fournisseur" Multiplicity="1" />
+          <End Role="tb_commande" Type="Self.tb_commande" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_fournisseur">
+              <PropertyRef Name="NoFournisseur" />
+            </Principal>
+            <Dependent Role="tb_commande">
+              <PropertyRef Name="NoFournisseur" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_commande_tb_unit">
+          <End Role="tb_unit" Type="Self.tb_unit" Multiplicity="1" />
+          <End Role="tb_commande" Type="Self.tb_commande" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_unit">
+              <PropertyRef Name="NoUnit" />
+            </Principal>
+            <Dependent Role="tb_commande">
+              <PropertyRef Name="NoUnit" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_commande_tb_user">
+          <End Role="tb_user" Type="Self.tb_user" Multiplicity="1" />
+          <End Role="tb_commande" Type="Self.tb_commande" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_user">
+              <PropertyRef Name="NomInitial" />
+            </Principal>
+            <Dependent Role="tb_commande">
+              <PropertyRef Name="PersonneCommande" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_commandeinventaire_tb_commande">
+          <End Role="tb_commande" Type="Self.tb_commande" Multiplicity="1" />
+          <End Role="tb_commandeinventaire" Type="Self.tb_commandeinventaire" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_commande">
+              <PropertyRef Name="NoCommande" />
+            </Principal>
+            <Dependent Role="tb_commandeinventaire">
+              <PropertyRef Name="NoCommande" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_commandepaiement_tb_commande">
+          <End Role="tb_commande" Type="Self.tb_commande" Multiplicity="1" />
+          <End Role="tb_commandepaiement" Type="Self.tb_commandepaiement" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="tb_commande">
+              <PropertyRef Name="NoCommande" />
+            </Principal>
+            <Dependent Role="tb_commandepaiement">
+              <PropertyRef Name="NoCommande" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_commandreception_tb_commande">
+          <End Role="tb_commande" Type="Self.tb_commande" Multiplicity="1" />
+          <End Role="tb_commandreception" Type="Self.tb_commandreception" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="tb_commande">
+              <PropertyRef Name="NoCommande" />
+            </Principal>
+            <Dependent Role="tb_commandreception">
+              <PropertyRef Name="NoCommande" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_commandStatus_tb_commande">
+          <End Role="tb_commande" Type="Self.tb_commande" Multiplicity="1" />
+          <End Role="tb_commandStatus" Type="Self.tb_commandStatus" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="tb_commande">
+              <PropertyRef Name="NoCommande" />
+            </Principal>
+            <Dependent Role="tb_commandStatus">
+              <PropertyRef Name="NoCommande" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_espace_tb_user">
+          <End Role="tb_user" Type="Self.tb_user" Multiplicity="0..1" />
+          <End Role="tb_espace" Type="Self.tb_espace" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_user">
+              <PropertyRef Name="NomInitial" />
+            </Principal>
+            <Dependent Role="tb_espace">
+              <PropertyRef Name="Responsable" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_octroisunit_tb_unit">
+          <End Role="tb_unit" Type="Self.tb_unit" Multiplicity="1" />
+          <End Role="tb_octroisunit" Type="Self.tb_octroisunit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_unit">
+              <PropertyRef Name="NoUnit" />
+            </Principal>
+            <Dependent Role="tb_octroisunit">
+              <PropertyRef Name="NoUnit" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_unit_contact_tb_unit">
+          <End Role="tb_unit" Type="Self.tb_unit" Multiplicity="1" />
+          <End Role="tb_unit_contact" Type="Self.tb_unit_contact" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_unit">
+              <PropertyRef Name="NoUnit" />
+            </Principal>
+            <Dependent Role="tb_unit_contact">
+              <PropertyRef Name="NoUnit" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_unit_tb_espace">
+          <End Role="tb_espace" Type="Self.tb_espace" Multiplicity="1" />
+          <End Role="tb_unit" Type="Self.tb_unit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_espace">
+              <PropertyRef Name="NoEspace" />
+            </Principal>
+            <Dependent Role="tb_unit">
+              <PropertyRef Name="NoEspace" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_unit_user_tb_unit">
+          <End Role="tb_unit" Type="Self.tb_unit" Multiplicity="1" />
+          <End Role="tb_unit_user" Type="Self.tb_unit_user" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_unit">
+              <PropertyRef Name="NoUnit" />
+            </Principal>
+            <Dependent Role="tb_unit_user">
+              <PropertyRef Name="NoUnit" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_unit_user_tb_user">
+          <End Role="tb_user" Type="Self.tb_user" Multiplicity="1" />
+          <End Role="tb_unit_user" Type="Self.tb_unit_user" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_user">
+              <PropertyRef Name="NomInitial" />
+            </Principal>
+            <Dependent Role="tb_unit_user">
+              <PropertyRef Name="NomInitial" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_userfonction_tb_fonctionunit">
+          <End Role="tb_fonctionunit" Type="Self.tb_fonctionunit" Multiplicity="1" />
+          <End Role="tb_userfonction" Type="Self.tb_userfonction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_fonctionunit">
+              <PropertyRef Name="NoFonction" />
+            </Principal>
+            <Dependent Role="tb_userfonction">
+              <PropertyRef Name="NoFonction" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_userfonction_tb_user">
+          <End Role="tb_user" Type="Self.tb_user" Multiplicity="1" />
+          <End Role="tb_userfonction" Type="Self.tb_userfonction" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="tb_user">
+              <PropertyRef Name="NomInitial" />
+            </Principal>
+            <Dependent Role="tb_userfonction">
+              <PropertyRef Name="NomInitial" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ModelStoreContainer">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_commande" EntityType="Self.tb_commande" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_commandeinventaire" EntityType="Self.tb_commandeinventaire" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_commandepaiement" EntityType="Self.tb_commandepaiement" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_commandreception" EntityType="Self.tb_commandreception" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_commandStatus" EntityType="Self.tb_commandStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_contact_role" EntityType="Self.tb_contact_role" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_espace" EntityType="Self.tb_espace" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_fonctionunit" EntityType="Self.tb_fonctionunit" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_fournisseur" EntityType="Self.tb_fournisseur" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_unit" EntityType="Self.tb_unit" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_unit_contact" EntityType="Self.tb_unit_contact" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_user" EntityType="Self.tb_user" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_userfonction" EntityType="Self.tb_userfonction" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_octroisunit" EntityType="Self.tb_octroisunit" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [tb_octroisunit].[OctroisYear] AS [OctroisYear], 
+    [tb_octroisunit].[NoUnit] AS [NoUnit], 
+    [tb_octroisunit].[OctroisBase] AS [OctroisBase], 
+    [tb_octroisunit].[OctroisCorrige] AS [OctroisCorrige], 
+    [tb_octroisunit].[Remarques] AS [Remarques], 
+    [tb_octroisunit].[isClosed] AS [isClosed]
+    FROM [dbo].[tb_octroisunit] AS [tb_octroisunit]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="tb_send_message" EntityType="Self.tb_send_message" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [tb_send_message].[ID] AS [ID], 
+    [tb_send_message].[NoUnit] AS [NoUnit], 
+    [tb_send_message].[EmailAdresse] AS [EmailAdresse], 
+    [tb_send_message].[EmailType] AS [EmailType], 
+    [tb_send_message].[SendTime] AS [SendTime], 
+    [tb_send_message].[SendStatus] AS [SendStatus], 
+    [tb_send_message].[MessageObjet] AS [MessageObjet], 
+    [tb_send_message].[MessageBody] AS [MessageBody], 
+    [tb_send_message].[ErrorMessage] AS [ErrorMessage]
+    FROM [dbo].[tb_send_message] AS [tb_send_message]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="tb_unit_user" EntityType="Self.tb_unit_user" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [tb_unit_user].[NomInitial] AS [NomInitial], 
+    [tb_unit_user].[NoUnit] AS [NoUnit]
+    FROM [dbo].[tb_unit_user] AS [tb_unit_user]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_tb_commande_tb_fournisseur" Association="Self.FK_tb_commande_tb_fournisseur">
+            <End Role="tb_fournisseur" EntitySet="tb_fournisseur" />
+            <End Role="tb_commande" EntitySet="tb_commande" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_commande_tb_unit" Association="Self.FK_tb_commande_tb_unit">
+            <End Role="tb_unit" EntitySet="tb_unit" />
+            <End Role="tb_commande" EntitySet="tb_commande" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_commande_tb_user" Association="Self.FK_tb_commande_tb_user">
+            <End Role="tb_user" EntitySet="tb_user" />
+            <End Role="tb_commande" EntitySet="tb_commande" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_commandeinventaire_tb_commande" Association="Self.FK_tb_commandeinventaire_tb_commande">
+            <End Role="tb_commande" EntitySet="tb_commande" />
+            <End Role="tb_commandeinventaire" EntitySet="tb_commandeinventaire" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_commandepaiement_tb_commande" Association="Self.FK_tb_commandepaiement_tb_commande">
+            <End Role="tb_commande" EntitySet="tb_commande" />
+            <End Role="tb_commandepaiement" EntitySet="tb_commandepaiement" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_commandreception_tb_commande" Association="Self.FK_tb_commandreception_tb_commande">
+            <End Role="tb_commande" EntitySet="tb_commande" />
+            <End Role="tb_commandreception" EntitySet="tb_commandreception" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_commandStatus_tb_commande" Association="Self.FK_tb_commandStatus_tb_commande">
+            <End Role="tb_commande" EntitySet="tb_commande" />
+            <End Role="tb_commandStatus" EntitySet="tb_commandStatus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_espace_tb_user" Association="Self.FK_tb_espace_tb_user">
+            <End Role="tb_user" EntitySet="tb_user" />
+            <End Role="tb_espace" EntitySet="tb_espace" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_octroisunit_tb_unit" Association="Self.FK_tb_octroisunit_tb_unit">
+            <End Role="tb_unit" EntitySet="tb_unit" />
+            <End Role="tb_octroisunit" EntitySet="tb_octroisunit" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_unit_contact_tb_unit" Association="Self.FK_tb_unit_contact_tb_unit">
+            <End Role="tb_unit" EntitySet="tb_unit" />
+            <End Role="tb_unit_contact" EntitySet="tb_unit_contact" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_unit_tb_espace" Association="Self.FK_tb_unit_tb_espace">
+            <End Role="tb_espace" EntitySet="tb_espace" />
+            <End Role="tb_unit" EntitySet="tb_unit" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_unit_user_tb_unit" Association="Self.FK_tb_unit_user_tb_unit">
+            <End Role="tb_unit" EntitySet="tb_unit" />
+            <End Role="tb_unit_user" EntitySet="tb_unit_user" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_unit_user_tb_user" Association="Self.FK_tb_unit_user_tb_user">
+            <End Role="tb_user" EntitySet="tb_user" />
+            <End Role="tb_unit_user" EntitySet="tb_unit_user" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_userfonction_tb_fonctionunit" Association="Self.FK_tb_userfonction_tb_fonctionunit">
+            <End Role="tb_fonctionunit" EntitySet="tb_fonctionunit" />
+            <End Role="tb_userfonction" EntitySet="tb_userfonction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_userfonction_tb_user" Association="Self.FK_tb_userfonction_tb_user">
+            <End Role="tb_user" EntitySet="tb_user" />
+            <End Role="tb_userfonction" EntitySet="tb_userfonction" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="tb_commande">
+          <Key>
+            <PropertyRef Name="NoCommande" />
+          </Key>
+          <Property Name="NoCommande" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="NoUnit" Type="Int16" Nullable="false" />
+          <Property Name="DateCommande" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="PersonneCommande" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="NoFournisseur" Type="Int16" Nullable="false" />
+          <Property Name="DescriptionObjet" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Montant" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="ToInventorier" Type="Int16" Nullable="false" />
+          <Property Name="Remarques" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="CommandeYear" Type="Int16" Nullable="false" />
+          <Property Name="CommandeRef" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CouleurRemarques" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tb_fournisseur" Relationship="Self.FK_tb_commande_tb_fournisseur" FromRole="tb_commande" ToRole="tb_fournisseur" />
+          <NavigationProperty Name="tb_unit" Relationship="Self.FK_tb_commande_tb_unit" FromRole="tb_commande" ToRole="tb_unit" />
+          <NavigationProperty Name="tb_user" Relationship="Self.FK_tb_commande_tb_user" FromRole="tb_commande" ToRole="tb_user" />
+          <NavigationProperty Name="tb_commandeinventaire" Relationship="Self.FK_tb_commandeinventaire_tb_commande" FromRole="tb_commande" ToRole="tb_commandeinventaire" />
+          <NavigationProperty Name="tb_commandepaiement" Relationship="Self.FK_tb_commandepaiement_tb_commande" FromRole="tb_commande" ToRole="tb_commandepaiement" />
+          <NavigationProperty Name="tb_commandreception" Relationship="Self.FK_tb_commandreception_tb_commande" FromRole="tb_commande" ToRole="tb_commandreception" />
+          <NavigationProperty Name="tb_commandStatus" Relationship="Self.FK_tb_commandStatus_tb_commande" FromRole="tb_commande" ToRole="tb_commandStatus" />
+        </EntityType>
+        <EntityType Name="tb_commandeinventaire">
+          <Key>
+            <PropertyRef Name="NoCommande" />
+            <PropertyRef Name="NoInventaire" />
+          </Key>
+          <Property Name="NoCommande" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="NoInventaire" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DateInventaire" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Remarques" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tb_commande" Relationship="Self.FK_tb_commandeinventaire_tb_commande" FromRole="tb_commandeinventaire" ToRole="tb_commande" />
+        </EntityType>
+        <EntityType Name="tb_commandepaiement">
+          <Key>
+            <PropertyRef Name="NoCommande" />
+          </Key>
+          <Property Name="NoCommande" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PersonnePaiement" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DatePaiement" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="PaimentParFond" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="PaiementParTransfert" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Remarques" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="CouleurRemarques" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tb_commande" Relationship="Self.FK_tb_commandepaiement_tb_commande" FromRole="tb_commandepaiement" ToRole="tb_commande" />
+        </EntityType>
+        <EntityType Name="tb_commandreception">
+          <Key>
+            <PropertyRef Name="NoCommande" />
+          </Key>
+          <Property Name="NoCommande" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DateReception" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Remarques" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tb_commande" Relationship="Self.FK_tb_commandreception_tb_commande" FromRole="tb_commandreception" ToRole="tb_commande" />
+        </EntityType>
+        <EntityType Name="tb_commandStatus">
+          <Key>
+            <PropertyRef Name="NoCommande" />
+          </Key>
+          <Property Name="NoCommande" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="isValid" Type="Int16" Nullable="false" />
+          <Property Name="isIndexed" Type="Int16" Nullable="false" />
+          <Property Name="isPaid" Type="Int16" Nullable="false" />
+          <Property Name="isReceived" Type="Int16" Nullable="false" />
+          <NavigationProperty Name="tb_commande" Relationship="Self.FK_tb_commandStatus_tb_commande" FromRole="tb_commandStatus" ToRole="tb_commande" />
+        </EntityType>
+        <EntityType Name="tb_contact_role">
+          <Key>
+            <PropertyRef Name="roleID" />
+          </Key>
+          <Property Name="roleID" Type="Int16" Nullable="false" />
+          <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tb_espace">
+          <Key>
+            <PropertyRef Name="NoEspace" />
+          </Key>
+          <Property Name="NoEspace" Type="Int16" Nullable="false" />
+          <Property Name="NomEspace" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Responsable" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Remarques" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tb_user" Relationship="Self.FK_tb_espace_tb_user" FromRole="tb_espace" ToRole="tb_user" />
+          <NavigationProperty Name="tb_unit" Relationship="Self.FK_tb_unit_tb_espace" FromRole="tb_espace" ToRole="tb_unit" />
+        </EntityType>
+        <EntityType Name="tb_fonctionunit">
+          <Key>
+            <PropertyRef Name="NoFonction" />
+          </Key>
+          <Property Name="NoFonction" Type="Int16" Nullable="false" />
+          <Property Name="NomFonction" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="GroupName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tb_user" Relationship="Self.tb_userfonction" FromRole="tb_fonctionunit" ToRole="tb_user" />
+        </EntityType>
+        <EntityType Name="tb_fournisseur">
+          <Key>
+            <PropertyRef Name="NoFournisseur" />
+          </Key>
+          <Property Name="NoFournisseur" Type="Int16" Nullable="false" />
+          <Property Name="NomFournisseur" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Remarques" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="IsValid" Type="Int16" Nullable="false" />
+          <NavigationProperty Name="tb_commande" Relationship="Self.FK_tb_commande_tb_fournisseur" FromRole="tb_fournisseur" ToRole="tb_commande" />
+        </EntityType>
+        <EntityType Name="tb_unit">
+          <Key>
+            <PropertyRef Name="NoUnit" />
+          </Key>
+          <Property Name="NoUnit" Type="Int16" Nullable="false" />
+          <Property Name="NomUnit" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="NoEspace" Type="Int16" Nullable="false" />
+          <Property Name="Remarques" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="IsClosed" Type="Int16" Nullable="false" />
+          <NavigationProperty Name="tb_commande" Relationship="Self.FK_tb_commande_tb_unit" FromRole="tb_unit" ToRole="tb_commande" />
+          <NavigationProperty Name="tb_espace" Relationship="Self.FK_tb_unit_tb_espace" FromRole="tb_unit" ToRole="tb_espace" />
+          <NavigationProperty Name="tb_octroisunit" Relationship="Self.FK_tb_octroisunit_tb_unit" FromRole="tb_unit" ToRole="tb_octroisunit" />
+          <NavigationProperty Name="tb_unit_contact" Relationship="Self.FK_tb_unit_contact_tb_unit" FromRole="tb_unit" ToRole="tb_unit_contact" />
+          <NavigationProperty Name="tb_user" Relationship="Self.tb_unit_user" FromRole="tb_unit" ToRole="tb_user" />
+        </EntityType>
+        <EntityType Name="tb_unit_contact">
+          <Key>
+            <PropertyRef Name="ContactID" />
+          </Key>
+          <Property Name="NoUnit" Type="Int16" Nullable="false" />
+          <Property Name="RolePerson" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PersonLastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PersonFirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AdresseEmail" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ContactID" Type="Int16" Nullable="false" />
+          <NavigationProperty Name="tb_unit" Relationship="Self.FK_tb_unit_contact_tb_unit" FromRole="tb_unit_contact" ToRole="tb_unit" />
+        </EntityType>
+        <EntityType Name="tb_user">
+          <Key>
+            <PropertyRef Name="NomInitial" />
+          </Key>
+          <Property Name="NomInitial" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="NomComplet" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Passwords" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Remarques" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="AdresseMail" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="isValid" Type="Int16" Nullable="false" />
+          <NavigationProperty Name="tb_commande" Relationship="Self.FK_tb_commande_tb_user" FromRole="tb_user" ToRole="tb_commande" />
+          <NavigationProperty Name="tb_espace" Relationship="Self.FK_tb_espace_tb_user" FromRole="tb_user" ToRole="tb_espace" />
+          <NavigationProperty Name="tb_fonctionunit" Relationship="Self.tb_userfonction" FromRole="tb_user" ToRole="tb_fonctionunit" />
+          <NavigationProperty Name="tb_unit" Relationship="Self.tb_unit_user" FromRole="tb_user" ToRole="tb_unit" />
+        </EntityType>
+        <EntityType Name="tb_octroisunit">
+          <Key>
+            <PropertyRef Name="OctroisYear" />
+            <PropertyRef Name="NoUnit" />
+            <PropertyRef Name="OctroisBase" />
+            <PropertyRef Name="OctroisCorrige" />
+            <PropertyRef Name="isClosed" />
+          </Key>
+          <Property Name="OctroisYear" Type="Int16" Nullable="false" />
+          <Property Name="NoUnit" Type="Int16" Nullable="false" />
+          <Property Name="OctroisBase" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="OctroisCorrige" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Remarques" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="isClosed" Type="Int16" Nullable="false" />
+          <NavigationProperty Name="tb_unit" Relationship="Self.FK_tb_octroisunit_tb_unit" FromRole="tb_octroisunit" ToRole="tb_unit" />
+        </EntityType>
+        <EntityType Name="tb_send_message">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="NoUnit" />
+            <PropertyRef Name="EmailAdresse" />
+            <PropertyRef Name="EmailType" />
+            <PropertyRef Name="SendTime" />
+            <PropertyRef Name="SendStatus" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" />
+          <Property Name="NoUnit" Type="Int16" Nullable="false" />
+          <Property Name="EmailAdresse" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="EmailType" Type="Int16" Nullable="false" />
+          <Property Name="SendTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="SendStatus" Type="Int16" Nullable="false" />
+          <Property Name="MessageObjet" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="MessageBody" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ErrorMessage" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_tb_commande_tb_fournisseur">
+          <End Role="tb_fournisseur" Type="Self.tb_fournisseur" Multiplicity="1" />
+          <End Role="tb_commande" Type="Self.tb_commande" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_fournisseur">
+              <PropertyRef Name="NoFournisseur" />
+            </Principal>
+            <Dependent Role="tb_commande">
+              <PropertyRef Name="NoFournisseur" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_commande_tb_unit">
+          <End Role="tb_unit" Type="Self.tb_unit" Multiplicity="1" />
+          <End Role="tb_commande" Type="Self.tb_commande" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_unit">
+              <PropertyRef Name="NoUnit" />
+            </Principal>
+            <Dependent Role="tb_commande">
+              <PropertyRef Name="NoUnit" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_commande_tb_user">
+          <End Role="tb_user" Type="Self.tb_user" Multiplicity="1" />
+          <End Role="tb_commande" Type="Self.tb_commande" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_user">
+              <PropertyRef Name="NomInitial" />
+            </Principal>
+            <Dependent Role="tb_commande">
+              <PropertyRef Name="PersonneCommande" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_commandeinventaire_tb_commande">
+          <End Role="tb_commande" Type="Self.tb_commande" Multiplicity="1" />
+          <End Role="tb_commandeinventaire" Type="Self.tb_commandeinventaire" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_commande">
+              <PropertyRef Name="NoCommande" />
+            </Principal>
+            <Dependent Role="tb_commandeinventaire">
+              <PropertyRef Name="NoCommande" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_commandepaiement_tb_commande">
+          <End Role="tb_commande" Type="Self.tb_commande" Multiplicity="1" />
+          <End Role="tb_commandepaiement" Type="Self.tb_commandepaiement" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="tb_commande">
+              <PropertyRef Name="NoCommande" />
+            </Principal>
+            <Dependent Role="tb_commandepaiement">
+              <PropertyRef Name="NoCommande" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_commandreception_tb_commande">
+          <End Role="tb_commande" Type="Self.tb_commande" Multiplicity="1" />
+          <End Role="tb_commandreception" Type="Self.tb_commandreception" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="tb_commande">
+              <PropertyRef Name="NoCommande" />
+            </Principal>
+            <Dependent Role="tb_commandreception">
+              <PropertyRef Name="NoCommande" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_commandStatus_tb_commande">
+          <End Role="tb_commande" Type="Self.tb_commande" Multiplicity="1" />
+          <End Role="tb_commandStatus" Type="Self.tb_commandStatus" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="tb_commande">
+              <PropertyRef Name="NoCommande" />
+            </Principal>
+            <Dependent Role="tb_commandStatus">
+              <PropertyRef Name="NoCommande" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_espace_tb_user">
+          <End Role="tb_user" Type="Self.tb_user" Multiplicity="0..1" />
+          <End Role="tb_espace" Type="Self.tb_espace" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_user">
+              <PropertyRef Name="NomInitial" />
+            </Principal>
+            <Dependent Role="tb_espace">
+              <PropertyRef Name="Responsable" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_unit_tb_espace">
+          <End Role="tb_espace" Type="Self.tb_espace" Multiplicity="1" />
+          <End Role="tb_unit" Type="Self.tb_unit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_espace">
+              <PropertyRef Name="NoEspace" />
+            </Principal>
+            <Dependent Role="tb_unit">
+              <PropertyRef Name="NoEspace" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_octroisunit_tb_unit">
+          <End Role="tb_unit" Type="Self.tb_unit" Multiplicity="1" />
+          <End Role="tb_octroisunit" Type="Self.tb_octroisunit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_unit">
+              <PropertyRef Name="NoUnit" />
+            </Principal>
+            <Dependent Role="tb_octroisunit">
+              <PropertyRef Name="NoUnit" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_unit_contact_tb_unit">
+          <End Role="tb_unit" Type="Self.tb_unit" Multiplicity="1" />
+          <End Role="tb_unit_contact" Type="Self.tb_unit_contact" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_unit">
+              <PropertyRef Name="NoUnit" />
+            </Principal>
+            <Dependent Role="tb_unit_contact">
+              <PropertyRef Name="NoUnit" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="tb_userfonction">
+          <End Role="tb_fonctionunit" Type="Self.tb_fonctionunit" Multiplicity="0..1" />
+          <End Role="tb_user" Type="Self.tb_user" Multiplicity="*" />
+        </Association>
+        <Association Name="tb_unit_user">
+          <End Role="tb_unit" Type="Self.tb_unit" Multiplicity="*" />
+          <End Role="tb_user" Type="Self.tb_user" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="enacit_budget" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="tb_commande" EntityType="Self.tb_commande" />
+          <EntitySet Name="tb_commandeinventaire" EntityType="Self.tb_commandeinventaire" />
+          <EntitySet Name="tb_commandepaiement" EntityType="Self.tb_commandepaiement" />
+          <EntitySet Name="tb_commandreception" EntityType="Self.tb_commandreception" />
+          <EntitySet Name="tb_commandStatus" EntityType="Self.tb_commandStatus" />
+          <EntitySet Name="tb_contact_role" EntityType="Self.tb_contact_role" />
+          <EntitySet Name="tb_espace" EntityType="Self.tb_espace" />
+          <EntitySet Name="tb_fonctionunit" EntityType="Self.tb_fonctionunit" />
+          <EntitySet Name="tb_fournisseur" EntityType="Self.tb_fournisseur" />
+          <EntitySet Name="tb_unit" EntityType="Self.tb_unit" />
+          <EntitySet Name="tb_unit_contact" EntityType="Self.tb_unit_contact" />
+          <EntitySet Name="tb_user" EntityType="Self.tb_user" />
+          <EntitySet Name="tb_octroisunit" EntityType="Self.tb_octroisunit" />
+          <EntitySet Name="tb_send_message" EntityType="Self.tb_send_message" />
+          <AssociationSet Name="FK_tb_commande_tb_fournisseur" Association="Self.FK_tb_commande_tb_fournisseur">
+            <End Role="tb_fournisseur" EntitySet="tb_fournisseur" />
+            <End Role="tb_commande" EntitySet="tb_commande" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_commande_tb_unit" Association="Self.FK_tb_commande_tb_unit">
+            <End Role="tb_unit" EntitySet="tb_unit" />
+            <End Role="tb_commande" EntitySet="tb_commande" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_commande_tb_user" Association="Self.FK_tb_commande_tb_user">
+            <End Role="tb_user" EntitySet="tb_user" />
+            <End Role="tb_commande" EntitySet="tb_commande" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_commandeinventaire_tb_commande" Association="Self.FK_tb_commandeinventaire_tb_commande">
+            <End Role="tb_commande" EntitySet="tb_commande" />
+            <End Role="tb_commandeinventaire" EntitySet="tb_commandeinventaire" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_commandepaiement_tb_commande" Association="Self.FK_tb_commandepaiement_tb_commande">
+            <End Role="tb_commande" EntitySet="tb_commande" />
+            <End Role="tb_commandepaiement" EntitySet="tb_commandepaiement" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_commandreception_tb_commande" Association="Self.FK_tb_commandreception_tb_commande">
+            <End Role="tb_commande" EntitySet="tb_commande" />
+            <End Role="tb_commandreception" EntitySet="tb_commandreception" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_commandStatus_tb_commande" Association="Self.FK_tb_commandStatus_tb_commande">
+            <End Role="tb_commande" EntitySet="tb_commande" />
+            <End Role="tb_commandStatus" EntitySet="tb_commandStatus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_espace_tb_user" Association="Self.FK_tb_espace_tb_user">
+            <End Role="tb_user" EntitySet="tb_user" />
+            <End Role="tb_espace" EntitySet="tb_espace" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_unit_tb_espace" Association="Self.FK_tb_unit_tb_espace">
+            <End Role="tb_espace" EntitySet="tb_espace" />
+            <End Role="tb_unit" EntitySet="tb_unit" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_octroisunit_tb_unit" Association="Self.FK_tb_octroisunit_tb_unit">
+            <End Role="tb_unit" EntitySet="tb_unit" />
+            <End Role="tb_octroisunit" EntitySet="tb_octroisunit" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_unit_contact_tb_unit" Association="Self.FK_tb_unit_contact_tb_unit">
+            <End Role="tb_unit" EntitySet="tb_unit" />
+            <End Role="tb_unit_contact" EntitySet="tb_unit_contact" />
+          </AssociationSet>
+          <AssociationSet Name="tb_userfonction" Association="Self.tb_userfonction">
+            <End Role="tb_fonctionunit" EntitySet="tb_fonctionunit" />
+            <End Role="tb_user" EntitySet="tb_user" />
+          </AssociationSet>
+          <AssociationSet Name="tb_unit_user" Association="Self.tb_unit_user">
+            <End Role="tb_unit" EntitySet="tb_unit" />
+            <End Role="tb_user" EntitySet="tb_user" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="enacit_budget">
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="Model.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_commande">
+            <EntityTypeMapping TypeName="Model.tb_commande">
+              <MappingFragment StoreEntitySet="tb_commande">
+                <ScalarProperty Name="NoCommande" ColumnName="NoCommande" />
+                <ScalarProperty Name="NoUnit" ColumnName="NoUnit" />
+                <ScalarProperty Name="DateCommande" ColumnName="DateCommande" />
+                <ScalarProperty Name="PersonneCommande" ColumnName="PersonneCommande" />
+                <ScalarProperty Name="NoFournisseur" ColumnName="NoFournisseur" />
+                <ScalarProperty Name="DescriptionObjet" ColumnName="DescriptionObjet" />
+                <ScalarProperty Name="Montant" ColumnName="Montant" />
+                <ScalarProperty Name="ToInventorier" ColumnName="ToInventorier" />
+                <ScalarProperty Name="Remarques" ColumnName="Remarques" />
+                <ScalarProperty Name="CommandeYear" ColumnName="CommandeYear" />
+                <ScalarProperty Name="CommandeRef" ColumnName="CommandeRef" />
+                <ScalarProperty Name="CouleurRemarques" ColumnName="CouleurRemarques" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_commandeinventaire">
+            <EntityTypeMapping TypeName="Model.tb_commandeinventaire">
+              <MappingFragment StoreEntitySet="tb_commandeinventaire">
+                <ScalarProperty Name="NoCommande" ColumnName="NoCommande" />
+                <ScalarProperty Name="NoInventaire" ColumnName="NoInventaire" />
+                <ScalarProperty Name="DateInventaire" ColumnName="DateInventaire" />
+                <ScalarProperty Name="Remarques" ColumnName="Remarques" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_commandepaiement">
+            <EntityTypeMapping TypeName="Model.tb_commandepaiement">
+              <MappingFragment StoreEntitySet="tb_commandepaiement">
+                <ScalarProperty Name="NoCommande" ColumnName="NoCommande" />
+                <ScalarProperty Name="PersonnePaiement" ColumnName="PersonnePaiement" />
+                <ScalarProperty Name="DatePaiement" ColumnName="DatePaiement" />
+                <ScalarProperty Name="PaimentParFond" ColumnName="PaimentParFond" />
+                <ScalarProperty Name="PaiementParTransfert" ColumnName="PaiementParTransfert" />
+                <ScalarProperty Name="Remarques" ColumnName="Remarques" />
+                <ScalarProperty Name="CouleurRemarques" ColumnName="CouleurRemarques" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_commandreception">
+            <EntityTypeMapping TypeName="Model.tb_commandreception">
+              <MappingFragment StoreEntitySet="tb_commandreception">
+                <ScalarProperty Name="NoCommande" ColumnName="NoCommande" />
+                <ScalarProperty Name="DateReception" ColumnName="DateReception" />
+                <ScalarProperty Name="Remarques" ColumnName="Remarques" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_commandStatus">
+            <EntityTypeMapping TypeName="Model.tb_commandStatus">
+              <MappingFragment StoreEntitySet="tb_commandStatus">
+                <ScalarProperty Name="NoCommande" ColumnName="NoCommande" />
+                <ScalarProperty Name="isValid" ColumnName="isValid" />
+                <ScalarProperty Name="isIndexed" ColumnName="isIndexed" />
+                <ScalarProperty Name="isPaid" ColumnName="isPaid" />
+                <ScalarProperty Name="isReceived" ColumnName="isReceived" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_contact_role">
+            <EntityTypeMapping TypeName="Model.tb_contact_role">
+              <MappingFragment StoreEntitySet="tb_contact_role">
+                <ScalarProperty Name="roleID" ColumnName="roleID" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_espace">
+            <EntityTypeMapping TypeName="Model.tb_espace">
+              <MappingFragment StoreEntitySet="tb_espace">
+                <ScalarProperty Name="NoEspace" ColumnName="NoEspace" />
+                <ScalarProperty Name="NomEspace" ColumnName="NomEspace" />
+                <ScalarProperty Name="Responsable" ColumnName="Responsable" />
+                <ScalarProperty Name="Remarques" ColumnName="Remarques" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_fonctionunit">
+            <EntityTypeMapping TypeName="Model.tb_fonctionunit">
+              <MappingFragment StoreEntitySet="tb_fonctionunit">
+                <ScalarProperty Name="NoFonction" ColumnName="NoFonction" />
+                <ScalarProperty Name="NomFonction" ColumnName="NomFonction" />
+                <ScalarProperty Name="GroupName" ColumnName="GroupName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_fournisseur">
+            <EntityTypeMapping TypeName="Model.tb_fournisseur">
+              <MappingFragment StoreEntitySet="tb_fournisseur">
+                <ScalarProperty Name="NoFournisseur" ColumnName="NoFournisseur" />
+                <ScalarProperty Name="NomFournisseur" ColumnName="NomFournisseur" />
+                <ScalarProperty Name="Remarques" ColumnName="Remarques" />
+                <ScalarProperty Name="IsValid" ColumnName="IsValid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_unit">
+            <EntityTypeMapping TypeName="Model.tb_unit">
+              <MappingFragment StoreEntitySet="tb_unit">
+                <ScalarProperty Name="NoUnit" ColumnName="NoUnit" />
+                <ScalarProperty Name="NomUnit" ColumnName="NomUnit" />
+                <ScalarProperty Name="NoEspace" ColumnName="NoEspace" />
+                <ScalarProperty Name="Remarques" ColumnName="Remarques" />
+                <ScalarProperty Name="IsClosed" ColumnName="IsClosed" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_unit_contact">
+            <EntityTypeMapping TypeName="Model.tb_unit_contact">
+              <MappingFragment StoreEntitySet="tb_unit_contact">
+                <ScalarProperty Name="NoUnit" ColumnName="NoUnit" />
+                <ScalarProperty Name="RolePerson" ColumnName="RolePerson" />
+                <ScalarProperty Name="PersonLastName" ColumnName="PersonLastName" />
+                <ScalarProperty Name="PersonFirstName" ColumnName="PersonFirstName" />
+                <ScalarProperty Name="AdresseEmail" ColumnName="AdresseEmail" />
+                <ScalarProperty Name="ContactID" ColumnName="ContactID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_user">
+            <EntityTypeMapping TypeName="Model.tb_user">
+              <MappingFragment StoreEntitySet="tb_user">
+                <ScalarProperty Name="NomInitial" ColumnName="NomInitial" />
+                <ScalarProperty Name="NomComplet" ColumnName="NomComplet" />
+                <ScalarProperty Name="Passwords" ColumnName="Passwords" />
+                <ScalarProperty Name="Remarques" ColumnName="Remarques" />
+                <ScalarProperty Name="AdresseMail" ColumnName="AdresseMail" />
+                <ScalarProperty Name="isValid" ColumnName="isValid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_octroisunit">
+            <EntityTypeMapping TypeName="Model.tb_octroisunit">
+              <MappingFragment StoreEntitySet="tb_octroisunit">
+                <ScalarProperty Name="OctroisYear" ColumnName="OctroisYear" />
+                <ScalarProperty Name="NoUnit" ColumnName="NoUnit" />
+                <ScalarProperty Name="OctroisBase" ColumnName="OctroisBase" />
+                <ScalarProperty Name="OctroisCorrige" ColumnName="OctroisCorrige" />
+                <ScalarProperty Name="Remarques" ColumnName="Remarques" />
+                <ScalarProperty Name="isClosed" ColumnName="isClosed" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_send_message">
+            <EntityTypeMapping TypeName="Model.tb_send_message">
+              <MappingFragment StoreEntitySet="tb_send_message">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="NoUnit" ColumnName="NoUnit" />
+                <ScalarProperty Name="EmailAdresse" ColumnName="EmailAdresse" />
+                <ScalarProperty Name="EmailType" ColumnName="EmailType" />
+                <ScalarProperty Name="SendTime" ColumnName="SendTime" />
+                <ScalarProperty Name="SendStatus" ColumnName="SendStatus" />
+                <ScalarProperty Name="MessageObjet" ColumnName="MessageObjet" />
+                <ScalarProperty Name="MessageBody" ColumnName="MessageBody" />
+                <ScalarProperty Name="ErrorMessage" ColumnName="ErrorMessage" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="tb_userfonction" TypeName="Model.tb_userfonction" StoreEntitySet="tb_userfonction">
+            <EndProperty Name="tb_fonctionunit">
+              <ScalarProperty Name="NoFonction" ColumnName="NoFonction" />
+            </EndProperty>
+            <EndProperty Name="tb_user">
+              <ScalarProperty Name="NomInitial" ColumnName="NomInitial" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="tb_unit_user" TypeName="Model.tb_unit_user" StoreEntitySet="tb_unit_user">
+            <EndProperty Name="tb_unit">
+              <ScalarProperty Name="NoUnit" ColumnName="NoUnit" />
+            </EndProperty>
+            <EndProperty Name="tb_user">
+              <ScalarProperty Name="NomInitial" ColumnName="NomInitial" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

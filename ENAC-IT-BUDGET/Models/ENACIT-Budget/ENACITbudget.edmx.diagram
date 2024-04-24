@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="aeb2cf11bf3b4fbfae7142c9fc4c56df" Name="Diagram1">
+        <EntityTypeShape EntityType="Model.sysdiagrams" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.tb_commande" Width="1.5" PointX="9.75" PointY="12.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.tb_commandeinventaire" Width="1.5" PointX="12" PointY="9.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.tb_commandepaiement" Width="1.5" PointX="12" PointY="12.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.tb_commandreception" Width="1.5" PointX="12" PointY="15.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.tb_commandStatus" Width="1.5" PointX="12" PointY="18.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.tb_contact_role" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.tb_espace" Width="1.5" PointX="5.25" PointY="20.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.tb_fonctionunit" Width="1.5" PointX="0.75" PointY="9.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.tb_fournisseur" Width="1.5" PointX="7.5" PointY="13.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.tb_unit" Width="1.5" PointX="7.5" PointY="20.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.tb_unit_contact" Width="1.5" PointX="9.75" PointY="18.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.tb_user" Width="1.5" PointX="3" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.tb_octroisunit" Width="1.5" PointX="9.75" PointY="22" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.tb_send_message" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
+        <AssociationConnector Association="Model.FK_tb_commande_tb_fournisseur" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_tb_commande_tb_unit" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_tb_commande_tb_user" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_tb_commandeinventaire_tb_commande" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_tb_commandepaiement_tb_commande" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_tb_commandreception_tb_commande" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_tb_commandStatus_tb_commande" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_tb_espace_tb_user" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_tb_unit_tb_espace" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_tb_octroisunit_tb_unit" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_tb_unit_contact_tb_unit" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.tb_userfonction" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.tb_unit_user" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

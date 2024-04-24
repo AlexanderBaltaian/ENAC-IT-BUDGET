@@ -45,10 +45,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -120,11 +128,75 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\ENACIT-Budget\ENACITbudget.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ENACITbudget.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ENACIT-Budget\ENACITbudget.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ENACITbudget.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ENACIT-Budget\ENACITbudget.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ENACITbudget.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ENACIT-Budget\sysdiagrams.cs">
+      <DependentUpon>ENACITbudget.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ENACIT-Budget\tb_commande.cs">
+      <DependentUpon>ENACITbudget.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ENACIT-Budget\tb_commandeinventaire.cs">
+      <DependentUpon>ENACITbudget.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ENACIT-Budget\tb_commandepaiement.cs">
+      <DependentUpon>ENACITbudget.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ENACIT-Budget\tb_commandreception.cs">
+      <DependentUpon>ENACITbudget.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ENACIT-Budget\tb_commandStatus.cs">
+      <DependentUpon>ENACITbudget.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ENACIT-Budget\tb_contact_role.cs">
+      <DependentUpon>ENACITbudget.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ENACIT-Budget\tb_espace.cs">
+      <DependentUpon>ENACITbudget.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ENACIT-Budget\tb_fonctionunit.cs">
+      <DependentUpon>ENACITbudget.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ENACIT-Budget\tb_fournisseur.cs">
+      <DependentUpon>ENACITbudget.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ENACIT-Budget\tb_octroisunit.cs">
+      <DependentUpon>ENACITbudget.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ENACIT-Budget\tb_send_message.cs">
+      <DependentUpon>ENACITbudget.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ENACIT-Budget\tb_unit.cs">
+      <DependentUpon>ENACITbudget.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ENACIT-Budget\tb_unit_contact.cs">
+      <DependentUpon>ENACITbudget.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ENACIT-Budget\tb_user.cs">
+      <DependentUpon>ENACITbudget.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\VariablesTableauViewModel.cs" />
+    <Compile Include="ViewModels\VariablesFormViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-grid.css" />
@@ -143,15 +215,33 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
-    <Content Include="favicon.ico" />
+    <Content Include="Content\Images\EPFL_Logo.svg" />
+    <Content Include="favico.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Models\ENACIT-Budget\ENACITbudget.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ENACITbudget.edmx</DependentUpon>
+      <LastGenOutput>ENACITbudget.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\ENACIT-Budget\ENACITbudget.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ENACITbudget.edmx</DependentUpon>
+      <LastGenOutput>ENACITbudget.cs</LastGenOutput>
+    </Content>
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
     <Content Include="Scripts\bootstrap.esm.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <EntityDeploy Include="Models\ENACIT-Budget\ENACITbudget.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ENACITbudget.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\ENACIT-Budget\ENACITbudget.edmx.diagram">
+      <DependentUpon>ENACITbudget.edmx</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -177,10 +267,11 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\Budget.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
+    <Folder Include="Views\Error\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />
@@ -208,6 +299,23 @@
     <Content Include="Scripts\bootstrap.bundle.js.map" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.4.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\enacit-lib-csharp\Enacit.Lib\Enacit.Lib.ViewModels\Enacit.Lib.ViewModels.csproj">
+      <Project>{1c4609ab-dc6f-49a3-8e06-5780b321daa3}</Project>
+      <Name>Enacit.Lib.ViewModels</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\enacit-lib-csharp\Enacit.Lib\Enacit.Lib.Web\Enacit.Lib.Web.csproj">
+      <Project>{7620b188-f037-4413-8a17-35e56fed16ad}</Project>
+      <Name>Enacit.Lib.Web</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\enacit-lib-csharp\Enacit.Lib\Enacit.Lib\Enacit.Lib.csproj">
+      <Project>{71c6f028-db84-406f-b0eb-b3f61688a25e}</Project>
+      <Name>Enacit.Lib</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
