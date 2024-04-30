@@ -57,9 +57,9 @@ namespace enac_lend.Controllers
 						var username = attributs["username"];
 						var displayname = attributs["displayname"];
 						var email = attributs["email"];
+						//var email = "andrew.barry@epfl.ch";
 						var group = attributs["group"].Split(',');
 						var unit = attributs["unit"].Split(',');
-
 
                         Session["userSciper"] = userSciper;
 						Session["username"] = username;
@@ -75,6 +75,7 @@ namespace enac_lend.Controllers
 						Session["authDate"] = DateTime.Now;
 
                         var dbEnacitbudget = new enacit_budget();
+						var viewModel = new VariablesTableauViewModel();
                         var isEnacitMember = dbEnacitbudget.tb_user.Any(x => x.AdresseMail == email);
 
                         if (isEnacitMember)
@@ -82,7 +83,13 @@ namespace enac_lend.Controllers
                             var units = dbEnacitbudget.tb_unit.ToList();
 							Session["unitnames"]= units;
 						}
-                        var unitsAuth = dbEnacitbudget.tb_unit_contact.Where(x => x.AdresseEmail == email).ToList();
+						else
+						{
+							var unitsAuth = dbEnacitbudget.tb_unit_contact.Where(x => x.AdresseEmail == email).Select(x => x.tb_unit).ToList();
+
+                            Session["unitnames"] = unitsAuth;
+							viewModel.UnitsAuth = unitsAuth;
+						}
 
                         FormsAuthentication.RedirectFromLoginPage(userSciper, false);
 

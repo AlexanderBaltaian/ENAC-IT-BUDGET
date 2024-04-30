@@ -8,6 +8,8 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
 using ENAC_IT_BUDGET.Models.ENACIT_Budget;
+using System.Globalization;
+using System.Web.Helpers;
 
 namespace ENAC_IT_BUDGET.Controllers
 {
@@ -18,24 +20,20 @@ namespace ENAC_IT_BUDGET.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            var viewModel = new VariablesFormViewModel();
-            if (ViewBag.data == null)
-            {
-                ViewBag.data = Session["unitnames"];
-            }
-            return View();
+            var viewModel = new VariablesTableauViewModel();
+            viewModel.Date = DateTime.Now.Year;
+            ViewBag.data = Session["unitnames"];
+            return View(viewModel);
         }
         
 
         [HttpPost]
-        public ActionResult Index(VariablesFormViewModel viewModel) 
+        public ActionResult Index(VariablesTableauViewModel viewModel) 
         {
-            return RedirectToAction("Budget", new { date = viewModel.Date, unit = viewModel.Unit });
+           return RedirectToAction("Budget", viewModel);
         }
-        public ActionResult About(int? date, string unit)
+        public ActionResult About()
         {
-            ViewBag.Message = date + unit;
-
             return View();
         }
 
@@ -47,39 +45,74 @@ namespace ENAC_IT_BUDGET.Controllers
         }
         public ActionResult Budget(int? date, int? unit)
         {
+            // Définit la culture personnalisée avec ' comme séparateur de groupe
+            CultureInfo montantCulture = (CultureInfo)CultureInfo.CurrentCulture.Clone();
+            montantCulture.NumberFormat.NumberGroupSeparator = "'";
+            montantCulture.NumberFormat.NumberDecimalSeparator = ".";
+            var email = Session["email"];
+
             var viewModelBudget = new VariablesTableauViewModel();
             var dbENACITBudget = new enacit_budget();
-            // Email de la personne connectée
-            var Email = dbENACITBudget.tb_unit_contact.Select(x => x.AdresseEmail).ToList();
+            var unitsAuth = dbENACITBudget.tb_unit_contact.Where(x => x.AdresseEmail == email.ToString()).Select(x => x.tb_unit).ToList();
 
-            // Nom de l'unité
-            var unitName = (dbENACITBudget.tb_unit.FirstOrDefault(x => x.NoUnit == unit)).NomUnit;
 
-            // budget de l'unité
-            var octroisCorrige = dbENACITBudget.tb_octroisunit.FirstOrDefault(x => x.NoUnit == unit && x.OctroisYear == date).OctroisCorrige;
+            if (!unitsAuth.Any(x => x.NoUnit == unit))
+            {
+                ViewBag.message = "Accès refusé : Vous n'avez pas les droits d'accès sur ce budget.";
+                return View("Error");
+            }
 
-            // Commandes de l'unité d'une certaine année 
-            var commandes = dbENACITBudget.tb_commande.Where(x => x.NoUnit == unit && x.CommandeYear == date && x.tb_commandStatus.isValid == 1).ToList();
+            if (dbENACITBudget.tb_octroisunit.FirstOrDefault(x => x.NoUnit == unit && x.OctroisYear == date) != null)
+            {
 
-            // Somme des parts payées par transfert
-            var sumTransferts = commandes.Sum(x => x.tb_commandepaiement.PaiementParTransfert);
+                // Email de la personne connectée
+                var Email = dbENACITBudget.tb_unit_contact.Select(x => x.AdresseEmail).ToList();
 
-            // Somme des montants des commandes valides (Engagé)
-            var sumCommandes = commandes.Sum(x => x.Montant);
+                // Nom de l'unité
+                var unitName = (dbENACITBudget.tb_unit.FirstOrDefault(x => x.NoUnit == unit)).NomUnit;
 
-            // Solde budget (budget + transfert - engagé)
-            var sumBudget = octroisCorrige + sumTransferts - sumCommandes;
+                // budget de l'unité
+                var octroisCorrige = dbENACITBudget.tb_octroisunit.FirstOrDefault(x => x.NoUnit == unit && x.OctroisYear == date).OctroisCorrige;
 
-            ViewBag.octroisCorrige = octroisCorrige;
-            ViewBag.sumTransferts = sumTransferts;
-            ViewBag.sumCommandes = sumCommandes;
-            ViewBag.sumBudget = sumBudget;
-            //ViewBag.transfert = totalTransfert;
-            //var units = dbENACITBudget.tb_unit.Select()
-            ViewBag.Message = "Budget IT " + date + " - "  + unitName;
+                // Commandes de l'unité d'une certaine année 
+                var commandes = dbENACITBudget.tb_commande.OrderBy(x => x.DateCommande).Where(x => x.NoUnit == unit && x.CommandeYear == date && x.tb_commandStatus.isValid == 1).ToList();
+                // Somme des parts payées par transfert
+                var sumTransferts = commandes.Sum(x => x.tb_commandepaiement?.PaiementParTransfert) ?? 0;
 
-            //viewModel.Budget = budget;
-            return View("Budget");
+                // Somme des montants des commandes valides (Engagé)
+                var sumCommandes = commandes.Sum(x => x.Montant);
+
+                // Solde budget (budget + transfert - engagé)
+                var sumBudget = octroisCorrige + sumTransferts - sumCommandes;
+
+                var budgetInitial = octroisCorrige + sumTransferts;
+                viewModelBudget.BudgetInitial = budgetInitial;
+                // Format des valeurs
+                var octroisFormat = octroisCorrige.ToString("N", montantCulture);
+                var transertsFormat = sumTransferts.ToString("N", montantCulture);
+                var sumCommandesFormat = sumCommandes.ToString("N", montantCulture);
+                var sumBudgetFormat = sumBudget.ToString("N", montantCulture);
+                viewModelBudget.OctroisCorrige = octroisFormat;
+                viewModelBudget.Commandes = commandes;
+                viewModelBudget.OctroisFormat = octroisFormat;
+                viewModelBudget.TransertsFormat = transertsFormat;
+                viewModelBudget.SumCommandesFormat = sumCommandesFormat;
+                viewModelBudget.SumBudgetFormat = sumBudgetFormat;
+                viewModelBudget.Date = (int)date;
+                viewModelBudget.MontantCulture = montantCulture;
+                //ViewBag.transfert = totalTransfert;
+                //var units = dbENACITBudget.tb_unit.Select()
+                ViewBag.Message = "Budget IT " + date + " - " + unitName;
+
+                //viewModel.Budget = budget;
+                return View(viewModelBudget);
+            }
+            else
+            {
+                ViewBag.Message = "Veuiller vérifier l'année et l'unité entrée.";
+                return View("Error");
+
+            }
         }
     }
 }

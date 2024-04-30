@@ -11,7 +11,6 @@ namespace ENAC_IT_BUDGET.ViewModels
     {
         public int Date { get; set; }
         public int Unit {  get; set; }
-        public List<string> Units { get; set; }
     }
     
     

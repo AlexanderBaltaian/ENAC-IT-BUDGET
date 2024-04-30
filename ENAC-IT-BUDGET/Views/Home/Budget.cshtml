@@ -1,11 +1,32 @@
-﻿@model ENAC_IT_BUDGET.ViewModels.VariablesTableauViewModel
+﻿@using System.Globalization;
+
+@model ENAC_IT_BUDGET.ViewModels.VariablesTableauViewModel
+
 @{
+
     Layout = "~/Views/Shared/_Layout.cshtml";
 
+    var commandes = Model.Commandes;
+    var octroisCorrige = Model.OctroisCorrige;
+    var sumTransferts = Model.TransertsFormat;
+    var sumCommandes = Model.SumCommandesFormat;
+    var sumBudget = Model.SumBudgetFormat;
+    var budgetInitial = Model.BudgetInitial;
+    CultureInfo montantCulture = Model.MontantCulture;
+    CultureInfo customCulture = (CultureInfo)CultureInfo.CurrentCulture.Clone();
+    customCulture.NumberFormat.NumberDecimalSeparator = ".";
+    customCulture.NumberFormat.NumberGroupSeparator = "";
+    var year = Model.Date;
+    decimal budget2 = budgetInitial;
+   
+    List<string> xY = new List<string>();
 
+    foreach (var commande1 in commandes)
+    {
+        budget2 = budget2 - commande1.Montant;
+        xY.Add("{x: new Date('" + commande1.DateCommande.ToString("yyyy-MM-dd") + "'), y: " + budget2.ToString("N", customCulture) + "}");
 
-    //var budget = Model.Budget;
-
+    }
 }
 
 <!DOCTYPE html>
@@ -25,14 +46,78 @@
             <th>Solde Budget</th>
         </tr>
         <tr>
-            <td>@ViewBag.octroisCorrige</td>
-            <td>@ViewBag.sumTransferts</td>
-            <td>@ViewBag.sumCommandes</td>
-            <td>@ViewBag.sumBudget</td>
+            <td>@octroisCorrige</td>
+            <td>@sumTransferts</td>
+            <td>@sumCommandes</td>
+            <td>@sumBudget</td>
         </tr>
     </table>
-    <div>
 
-    </div>
-</body>
+    <h3>Liste des commandes</h3>
+    <table>
+        <tr>
+            <th>Date commande</th>
+            <th>Commande ref</th>
+            <th>Fournisseur</th>
+            <th>Objet</th>
+            <th>Montant</th>
+        </tr>
+        @foreach (var commande in commandes)
+        {
+            <html>
+        <tr>
+            <td>@commande.DateCommande.ToString("yyyy.MM.dd")</td>
+            <td>@commande.CommandeRef</td>
+            <td>@commande.tb_fournisseur.NomFournisseur</td>
+            <td>@commande.DescriptionObjet</td>
+            <td>@commande.Montant.ToString("N", montantCulture)</td>
+        </tr>
 </html>
+
+}
+        <tr style="font-weight: bold;">
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>Total</td>
+            <td>@sumCommandes</td>
+        </tr>
+
+        </table>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+
+        <canvas id="myChart" style="width:100%"></canvas>
+
+        <script>
+               
+            new Chart("myChart", {
+                type: "line",
+                data: {
+                    labels: [
+                    ],
+                    datasets: [{
+                        label: 'Evolution du budget, durant @year',
+                        data: [@Html.Raw(string.Join(", ", xY))],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    /*legend: { display: false },*/
+                    scales: {
+                        x: {
+                            type: 'time',
+                            time: {
+                                tooltipFormat: 'DD T'
+                            }
+
+                        }
+
+                    }
+                }
+            });
+        </script>
+
+        </script>
+        </body>
+        </html>

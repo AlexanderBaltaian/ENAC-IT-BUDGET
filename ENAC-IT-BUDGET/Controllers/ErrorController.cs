@@ -13,5 +13,13 @@ namespace ENAC_IT_BUDGET.Controllers
         {
             return View();
         }
+        public ActionResult NotFound()
+        {
+            return View("404");
+        }
+        public ActionResult Error()
+        {
+            return View();
+        }
     }
 }

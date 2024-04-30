@@ -18,3 +18,20 @@ select,
 textarea {
     max-width: 280px;
 }
+
+table{
+    border: 1px solid black;
+    width: 100%;
+}
+
+th {
+    border: 1px solid black;
+    text-align :center;
+
+}
+
+td {
+    border: 1px solid black;
+    text-align : right;
+}
+
