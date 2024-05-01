@@ -10,7 +10,7 @@ namespace ENAC_IT_BUDGET.ViewModels
     public class VariablesFormViewModel
     {
         public int Date { get; set; }
-        public int Unit {  get; set; }
+        public string Unit { get; set; }
     }
     
     

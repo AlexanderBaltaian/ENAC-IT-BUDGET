@@ -16,7 +16,7 @@ namespace ENAC_IT_BUDGET.ViewModels
         public string TransertsFormat { get; set; }
         public string SumCommandesFormat { get; set; }
         public string SumBudgetFormat { get; set; }
-        public decimal BudgetInitial {  get; set; }
+        public decimal BudgetInitial { get; set; }
         public List<tb_commande> Commandes { get; set; }
         public List<tb_unit> UnitsAuth {  get; set; }
         public int Date {  get; set; }

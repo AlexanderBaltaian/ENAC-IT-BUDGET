@@ -30,7 +30,7 @@ namespace ENAC_IT_BUDGET
             routes.MapRoute(
                 name: "Budget",
                 url: "{unit}/{date}",
-                defaults: new { controller = "Home", action = "Budget" }
+                defaults: new { controller = "Home", action = "Budget"}
                 );
 
             routes.MapRoute(

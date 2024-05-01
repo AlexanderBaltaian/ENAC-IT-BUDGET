@@ -18,7 +18,7 @@
     customCulture.NumberFormat.NumberGroupSeparator = "";
     var year = Model.Date;
     decimal budget2 = budgetInitial;
-   
+
     List<string> xY = new List<string>();
 
     foreach (var commande1 in commandes)
@@ -84,14 +84,16 @@
         </tr>
 
         </table>
+
+
+        <canvas id="budgetGraph" style="width:100%"></canvas>
+
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
         <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
-
-        <canvas id="myChart" style="width:100%"></canvas>
-
         <script>
 
-            new Chart("myChart", {
+            new Chart("budgetGraph", {
                 type: "line",
                 data: {
                     labels: [

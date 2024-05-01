@@ -20,17 +20,17 @@ namespace ENAC_IT_BUDGET.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            var viewModel = new VariablesTableauViewModel();
+            var viewModel = new VariablesFormViewModel();
             viewModel.Date = DateTime.Now.Year;
             ViewBag.data = Session["unitnames"];
             return View(viewModel);
         }
-        
+
 
         [HttpPost]
-        public ActionResult Index(VariablesTableauViewModel viewModel) 
+        public ActionResult Index(VariablesFormViewModel viewModel)
         {
-           return RedirectToAction("Budget", viewModel);
+            return RedirectToAction("Budget", viewModel);
         }
         public ActionResult About()
         {
