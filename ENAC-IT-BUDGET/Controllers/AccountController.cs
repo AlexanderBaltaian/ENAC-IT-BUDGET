@@ -9,6 +9,8 @@ using System.Web.UI.WebControls;
 using ENAC_IT_BUDGET.ViewModels;
 using System.Collections;
 using System.Globalization;
+using System.Diagnostics;
+using Microsoft.Ajax.Utilities;
 
 namespace enac_lend.Controllers
 {
@@ -56,8 +58,8 @@ namespace enac_lend.Controllers
 						var userSciper = attributs["uniqueid"];
 						var username = attributs["username"];
 						var displayname = attributs["displayname"];
-						var email = attributs["email"];
-						//var email = "andrew.barry@epfl.ch";
+						//var email = attributs["email"];
+						var email = "andrew.barry@epfl.ch";
 						var group = attributs["group"].Split(',');
 						var unit = attributs["unit"].Split(',');
 
@@ -102,11 +104,11 @@ namespace enac_lend.Controllers
 				}
 				catch (Exception)
 				{
-                    //#if DEBUG
-                    throw;
-					//#endif
-					//					throw new IT2Exception("Exception Tequila");
-				}
+					//#if DEBUG
+					throw;
+                    //#endif
+                    //					throw new IT2Exception("Exception Tequila");
+                }
 			}
 			//return Redirect(_DEFAULT_REDIRECTION_PAGE_URL);
 			return new HttpUnauthorizedResult();

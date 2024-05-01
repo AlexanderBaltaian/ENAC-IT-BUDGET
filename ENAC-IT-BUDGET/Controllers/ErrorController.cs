@@ -17,6 +17,10 @@ namespace ENAC_IT_BUDGET.Controllers
         {
             return View("404");
         }
+        public ActionResult Unavailable()
+        {
+            return View();
+        }
         public ActionResult Error()
         {
             return View();

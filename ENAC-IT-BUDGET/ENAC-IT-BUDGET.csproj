@@ -269,6 +269,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Budget.cshtml" />
     <Content Include="Views\Error\404.cshtml" />
+    <Content Include="Views\Error\Unavailable.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

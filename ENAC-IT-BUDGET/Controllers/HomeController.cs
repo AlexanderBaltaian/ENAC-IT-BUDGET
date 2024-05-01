@@ -49,16 +49,18 @@ namespace ENAC_IT_BUDGET.Controllers
             CultureInfo montantCulture = (CultureInfo)CultureInfo.CurrentCulture.Clone();
             montantCulture.NumberFormat.NumberGroupSeparator = "'";
             montantCulture.NumberFormat.NumberDecimalSeparator = ".";
-            var email = Session["email"];
+            string email =Convert.ToString(Session["email"]);
 
             var viewModelBudget = new VariablesTableauViewModel();
             var dbENACITBudget = new enacit_budget();
             var unitsAuth = dbENACITBudget.tb_unit_contact.Where(x => x.AdresseEmail == email.ToString()).Select(x => x.tb_unit).ToList();
+            var isEnacitMember = dbENACITBudget.tb_user.Any(x => x.AdresseMail == email.ToString());
 
 
-            if (!unitsAuth.Any(x => x.NoUnit == unit))
+
+            if (!unitsAuth.Any(x => x.NoUnit == unit) && isEnacitMember == false)
             {
-                ViewBag.message = "Accès refusé : Vous n'avez pas les droits d'accès sur ce budget.";
+                ViewBag.errorMessage = "Accès refusé : Vous n'avez pas les droits d'accès sur ce budget.";
                 return View("Error");
             }
 
@@ -109,7 +111,7 @@ namespace ENAC_IT_BUDGET.Controllers
             }
             else
             {
-                ViewBag.Message = "Veuiller vérifier l'année et l'unité entrée.";
+                ViewBag.errorMessage = "Veuiller vérifier l'année et l'unité entrée.";
                 return View("Error");
 
             }

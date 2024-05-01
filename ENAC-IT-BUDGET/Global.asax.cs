@@ -1,6 +1,9 @@
 ﻿using ENAC_IT_BUDGET.Controllers;
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
+using System.Data.Entity.Core;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -43,6 +46,20 @@ namespace ENAC_IT_BUDGET
                 {
                     errorRoute.Values.Add("action", "Error");
                 }
+            }
+            else if (exception is SqlException || exception is EntityException)
+            {
+                var dbException = exception;
+                if (exception is SqlException)
+                {
+                    dbException = exception as SqlException;
+                }
+                else if (exception is EntityException)
+                {
+                    dbException = exception as EntityException;
+                }
+                controller.ViewBag.errorMessage = dbException.Message;
+                errorRoute.Values.Add("action", "Unavailable");
             }
             else
             {

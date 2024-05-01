@@ -90,7 +90,7 @@
         <canvas id="myChart" style="width:100%"></canvas>
 
         <script>
-               
+
             new Chart("myChart", {
                 type: "line",
                 data: {
@@ -98,7 +98,7 @@
                     ],
                     datasets: [{
                         label: 'Evolution du budget, durant @year',
-                        data: [@Html.Raw(string.Join(", ", xY))],
+                        data: [{ x: new Date('@year-01-01 00:00:00'), y: @budgetInitial.ToString("N", customCulture)}, @Html.Raw(string.Join(", ", xY))],
                         borderWidth: 1
                     }]
                 },
@@ -107,8 +107,10 @@
                     scales: {
                         x: {
                             type: 'time',
+                            min: '@year-01-01 00:00:00',
+                            max: '@year-12-31 00:00:00',
                             time: {
-                                tooltipFormat: 'DD T'
+                                unit:'day'
                             }
 
                         }
