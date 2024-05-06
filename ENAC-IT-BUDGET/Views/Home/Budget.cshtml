@@ -21,6 +21,7 @@
 
     List<string> xY = new List<string>();
 
+    // Liste du budget après chaque commande et la date de la commande suivant la structure des données de chart.js
     foreach (var commande1 in commandes)
     {
         budget2 = budget2 - commande1.Montant;
@@ -85,14 +86,14 @@
 
         </table>
 
-
+        @*Affichage de la charte*@
         <canvas id="budgetGraph" style="width:100%"></canvas>
 
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
         <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
         <script>
-
+            //Valeur et setup du graph
             new Chart("budgetGraph", {
                 type: "line",
                 data: {
@@ -104,11 +105,11 @@
                         borderWidth: 1
                     }]
                 },
-                options: {
-                    /*legend: { display: false },*/
+               options: {
                     scales: {
                         x: {
                             type: 'time',
+                            //Valeurs minimum et maximum de l'axe X (temps)
                             min: '@year-01-01 00:00:00',
                             max: '@year-12-31 00:00:00',
                             time: {

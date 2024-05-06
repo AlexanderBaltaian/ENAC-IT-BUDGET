@@ -28,6 +28,7 @@ namespace ENAC_IT_BUDGET.Controllers
 
 
         [HttpPost]
+        //Action après la valisation du formulaire
         public ActionResult Index(VariablesFormViewModel viewModel)
         {
             return RedirectToAction("Budget", viewModel);
@@ -53,17 +54,21 @@ namespace ENAC_IT_BUDGET.Controllers
 
             var viewModelBudget = new VariablesTableauViewModel();
             var dbENACITBudget = new enacit_budget();
+
+            // Récupération des unité ou la personne est de contact
             var unitsAuth = dbENACITBudget.tb_unit_contact.Where(x => x.AdresseEmail == email.ToString()).Select(x => x.tb_unit).ToList();
+
+            // Vérification si l'utilisateur est ENAC-IT
             var isEnacitMember = dbENACITBudget.tb_user.Any(x => x.AdresseMail == email.ToString());
 
 
-
+            // Vérification de l'utilisateur non ENACIT et non personne de contact
             if (!unitsAuth.Any(x => x.NoUnit == unit) && isEnacitMember == false)
             {
                 ViewBag.errorMessage = "Accès refusé : Vous n'avez pas les droits d'accès sur ce budget.";
                 return View("Error");
             }
-
+            // Vérification de l'entrée. Si aucune date n'est rentrée ou le formulaire n'est pas validé, une erreur apparait
             if (dbENACITBudget.tb_octroisunit.FirstOrDefault(x => x.NoUnit == unit && x.OctroisYear == date) != null)
             {
 
@@ -76,8 +81,9 @@ namespace ENAC_IT_BUDGET.Controllers
                 // budget de l'unité
                 var octroisCorrige = dbENACITBudget.tb_octroisunit.FirstOrDefault(x => x.NoUnit == unit && x.OctroisYear == date).OctroisCorrige;
 
-                // Commandes de l'unité d'une certaine année 
+                // Commandes de l'unité d'une certaine année qui sont validée
                 var commandes = dbENACITBudget.tb_commande.OrderBy(x => x.DateCommande).Where(x => x.NoUnit == unit && x.CommandeYear == date && x.tb_commandStatus.isValid == 1).ToList();
+                
                 // Somme des parts payées par transfert
                 var sumTransferts = commandes.Sum(x => x.tb_commandepaiement?.PaiementParTransfert) ?? 0;
 
@@ -94,6 +100,8 @@ namespace ENAC_IT_BUDGET.Controllers
                 var transertsFormat = sumTransferts.ToString("N", montantCulture);
                 var sumCommandesFormat = sumCommandes.ToString("N", montantCulture);
                 var sumBudgetFormat = sumBudget.ToString("N", montantCulture);
+
+                // Envoie des valeurs à notre viewmodel (VariablesTableauViewModel)
                 viewModelBudget.OctroisCorrige = octroisFormat;
                 viewModelBudget.Commandes = commandes;
                 viewModelBudget.OctroisFormat = octroisFormat;
@@ -109,6 +117,7 @@ namespace ENAC_IT_BUDGET.Controllers
                 //viewModel.Budget = budget;
                 return View(viewModelBudget);
             }
+            // Erreur si aucune valeur n'est reçue
             else
             {
                 ViewBag.errorMessage = "Veuiller vérifier l'année et l'unité entrée.";

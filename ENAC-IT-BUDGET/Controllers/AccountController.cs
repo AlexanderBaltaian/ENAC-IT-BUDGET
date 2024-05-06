@@ -59,7 +59,7 @@ namespace enac_lend.Controllers
 						var username = attributs["username"];
 						var displayname = attributs["displayname"];
 						//var email = attributs["email"];
-						var email = "andrew.barry@epfl.ch";
+						var email = "xyz@epfl.ch";
 						var group = attributs["group"].Split(',');
 						var unit = attributs["unit"].Split(',');
 
@@ -76,15 +76,18 @@ namespace enac_lend.Controllers
 
 						Session["authDate"] = DateTime.Now;
 
-                        var dbEnacitbudget = new enacit_budget();
 						var viewModel = new VariablesTableauViewModel();
+
+                        var dbEnacitbudget = new enacit_budget();
                         var isEnacitMember = dbEnacitbudget.tb_user.Any(x => x.AdresseMail == email);
 
+						// Check si l'utilisateur fait partie de ENAC-IT, si oui, il a accès à toutes les unitées
                         if (isEnacitMember)
                         {
                             var units = dbEnacitbudget.tb_unit.ToList();
 							Session["unitnames"]= units;
 						}
+						// Liste des unité que l'utilisateur administre
 						else
 						{
 							var unitsAuth = dbEnacitbudget.tb_unit_contact.Where(x => x.AdresseEmail == email).Select(x => x.tb_unit).ToList();
