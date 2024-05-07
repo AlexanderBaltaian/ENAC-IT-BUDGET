@@ -58,8 +58,8 @@ namespace enac_lend.Controllers
 						var userSciper = attributs["uniqueid"];
 						var username = attributs["username"];
 						var displayname = attributs["displayname"];
-						//var email = attributs["email"];
-						var email = "xyz@epfl.ch";
+						var email = attributs["email"];
+						//var email = "xyz@epfl.ch";
 						var group = attributs["group"].Split(',');
 						var unit = attributs["unit"].Split(',');
 
