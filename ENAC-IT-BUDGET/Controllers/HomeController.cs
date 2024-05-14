@@ -18,6 +18,7 @@ namespace ENAC_IT_BUDGET.Controllers
     public class HomeController : Controller
     {
         [HttpGet]
+        // Affichage de la date actuelle et des unités disponible à l'utilisateur
         public ActionResult Index()
         {
             var viewModel = new VariablesFormViewModel();
@@ -28,7 +29,7 @@ namespace ENAC_IT_BUDGET.Controllers
 
 
         [HttpPost]
-        //Action après la valisation du formulaire
+        //Action après la validation du formulaire
         public ActionResult Index(VariablesFormViewModel viewModel)
         {
             return RedirectToAction("Budget", viewModel);
@@ -38,12 +39,14 @@ namespace ENAC_IT_BUDGET.Controllers
             return View();
         }
 
+        // Actions de la page "Contact"
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
 
             return View();
         }
+        // Affiche la page "Budget" avec toutes les variables nécessaires et crée un message d'erreur si l'utilisateur n'a pas les droits d'accès
         public ActionResult Budget(int? date, int? unit)
         {
             // Définit la culture personnalisée avec ' comme séparateur de groupe

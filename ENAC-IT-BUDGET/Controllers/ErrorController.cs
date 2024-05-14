@@ -14,16 +14,22 @@ namespace ENAC_IT_BUDGET.Controllers
         {
             return View();
         }
+
+        // Actions qui affiche la page "404"
         public ActionResult NotFound()
         {
             // Retourne la page 404
             return View("404");
         }
+
+        // Actions qui affiche la page "Unavailable"
         public ActionResult Unavailable()
         {
             // Retourne la page DB non accèssible
             return View();
         }
+
+        // Actions qui affiche page "Error"
         public ActionResult Error()
         {
             return View();

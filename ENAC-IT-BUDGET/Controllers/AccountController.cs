@@ -33,6 +33,8 @@ namespace enac_lend.Controllers
 
 
 		[AllowAnonymous]
+
+		// Action qui permet la connexion de l'utilisateur
 		public ActionResult Login(string returnUrl)
 		{
 			TimeSpan authMax = TimeSpan.FromMinutes(10);
@@ -117,11 +119,13 @@ namespace enac_lend.Controllers
 			return new HttpUnauthorizedResult();
 		}
 
-		/// <summary>
-		/// Clear le cookie tequila et la session sourante lors d'un logoff
-		/// </summary>
-		/// <returns></returns>
-		public RedirectResult Logout()
+        /// <summary>
+        /// Clear le cookie tequila et la session sourante lors d'un logoff
+        /// </summary>
+        /// <returns></returns>
+
+        // Action qui permet de se déconnecter
+        public RedirectResult Logout()
 		{
 			if (User.Identity.IsAuthenticated)
 			{
